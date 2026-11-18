@@ -1,0 +1,10 @@
+Options -Indexes
+<FilesMatch "^(config|usage|subscriptions|subscriptions-lock)\.php$">
+  Require all denied
+</FilesMatch>
+<FilesMatch "^\.mobile-">
+  Require all denied
+</FilesMatch>
+SetEnvIf Authorization "(.*)" HTTP_AUTHORIZATION=$1
+Header always set Referrer-Policy "no-referrer"
+Header always set X-Content-Type-Options "nosniff"

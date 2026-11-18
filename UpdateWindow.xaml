@@ -1,0 +1,134 @@
+<Window x:Class="UsageTools2026.UpdateWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="UsageTools2026 Update"
+        Width="430"
+        Height="410"
+        ResizeMode="NoResize"
+        WindowStyle="None"
+        AllowsTransparency="True"
+        Background="Transparent"
+        ShowInTaskbar="False"
+        WindowStartupLocation="CenterOwner">
+    <Border CornerRadius="10"
+            Padding="1"
+            Background="#293746"
+            BorderBrush="#4F9DF7"
+            BorderThickness="1">
+        <Border CornerRadius="9" Background="#111820">
+            <Grid Margin="20">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+
+                <DockPanel MouseLeftButtonDown="Header_MouseLeftButtonDown">
+                    <Button DockPanel.Dock="Right"
+                            Width="28"
+                            Height="26"
+                            Padding="0"
+                            Content="X"
+                            Foreground="#D9E4EC"
+                            Background="#1B2631"
+                            BorderBrush="#344554"
+                            Click="Close_Click" />
+                    <StackPanel>
+                        <TextBlock Text="UsageTools2026 有新版本"
+                                   FontSize="18"
+                                   FontWeight="Bold"
+                                   Foreground="#F3F7FA" />
+                        <TextBlock x:Name="PublishedText"
+                                   Margin="0,4,0,0"
+                                   FontSize="11"
+                                   Foreground="#91A2AF" />
+                    </StackPanel>
+                </DockPanel>
+
+                <Grid Grid.Row="1" Margin="0,18,0,14">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <StackPanel>
+                        <TextBlock Text="可用版本" FontSize="11" Foreground="#91A2AF" />
+                        <TextBlock x:Name="VersionText" Margin="0,2,0,0" FontSize="24" FontWeight="Bold" Foreground="#5FA5FF" />
+                    </StackPanel>
+                    <StackPanel Grid.Column="1" HorizontalAlignment="Right">
+                        <TextBlock Text="下載大小" FontSize="11" Foreground="#91A2AF" HorizontalAlignment="Right" />
+                        <TextBlock x:Name="SizeText" Margin="0,5,0,0" FontSize="14" FontWeight="SemiBold" Foreground="#D9E4EC" HorizontalAlignment="Right" />
+                    </StackPanel>
+                </Grid>
+
+                <Border Grid.Row="2" CornerRadius="6" Background="#0B1117" BorderBrush="#2A3946" BorderThickness="1" Padding="12">
+                    <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+                        <TextBlock x:Name="ReleaseNotesText"
+                                   FontSize="12"
+                                   LineHeight="19"
+                                   TextWrapping="Wrap"
+                                   Foreground="#CDD8E0" />
+                    </ScrollViewer>
+                </Border>
+
+                <StackPanel x:Name="DownloadPanel"
+                            Grid.Row="3"
+                            Margin="0,14,0,0"
+                            Visibility="Collapsed">
+                    <DockPanel Margin="0,0,0,5">
+                        <TextBlock x:Name="DownloadPercentText"
+                                   DockPanel.Dock="Right"
+                                   FontSize="11"
+                                   FontWeight="SemiBold"
+                                   Foreground="#8FBFFF" />
+                        <TextBlock x:Name="DownloadStatusText"
+                                   FontSize="11"
+                                   Foreground="#AEBCC7"
+                                   Text="準備下載..." />
+                    </DockPanel>
+                    <ProgressBar x:Name="DownloadProgressBar"
+                                 Height="7"
+                                 Minimum="0"
+                                 Maximum="100"
+                                 Value="0"
+                                 Foreground="#4A91FF"
+                                 Background="#25313C" />
+                </StackPanel>
+
+                <Grid Grid.Row="4" Margin="0,16,0,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="12" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock x:Name="SecurityText"
+                               VerticalAlignment="Center"
+                               FontSize="10"
+                               Foreground="#6FD59A"
+                               Text="更新檔將驗證簽章與 SHA-256" />
+                    <StackPanel Grid.Column="2" Orientation="Horizontal">
+                        <Button x:Name="LaterButton"
+                                Width="72"
+                                Height="32"
+                                Content="稍後"
+                                Foreground="#D9E4EC"
+                                Background="#1B2631"
+                                BorderBrush="#344554"
+                                Click="Close_Click" />
+                        <Button x:Name="InstallButton"
+                                Width="132"
+                                Height="32"
+                                Margin="8,0,0,0"
+                                Content="下載並重新啟動"
+                                FontWeight="Bold"
+                                Foreground="White"
+                                Background="#2F7CF6"
+                                BorderBrush="#6BA8FF"
+                                Click="Install_Click" />
+                    </StackPanel>
+                </Grid>
+            </Grid>
+        </Border>
+    </Border>
+</Window>

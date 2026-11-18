@@ -1,0 +1,41 @@
+UsageTools2026 public source audit - 2026-11-18
+
+The LICENSE body matches the official PolyForm Noncommercial License 1.0.0 text after whitespace normalization.
+The author notice and third-party notices are present. The desktop and phone UI use CX and CC badges, and both retain the UsageTools gauge icon.
+The locked desktop NuGet restore ran advisory checks for direct and transitive packages and reported no advisory warnings.
+Desktop Debug with the review manifest, desktop Release, the standalone updater and both update tooling projects built with zero warnings and errors.
+The standalone updater also published successfully as a trimmed self-contained win-x64 executable.
+Desktop product, file and assembly versions were verified as 2026.11.18.1.
+The Classic theme uses the dark palette on desktop and mobile after removal of both copies of the background image.
+Four affected phone suites passed 145 checks after the theme and cache update.
+Desktop fixture suites passed 154 checks across parse, mobile, health and stage B.
+The full WPF artifact suite passed, including 24 header and footer cases and 96 adaptive-height cases. The negative-coordinate check allows one physical pixel of Windows rounding.
+The About window displays EricsWei、Atu. The unconfigured website, LINE and substitute QR were removed.
+The draft and desktop assembly exclude the four pet modes and their image resources. The HTML report omits pet progress.
+The mobile suites passed 232 checks across PHP API, PHP contracts, browser pairing and layout, notifications, news and the mocked Claude model response.
+The PHP and JavaScript syntax checks covered 11 PHP files and 18 JS/CJS files. Four PowerShell build and update scripts passed syntax parsing.
+The local settings fixture verifies that unconfigured mobile pairing is disabled. The draft ships without a configured mobile host or update feed.
+Desktop WebKit was unavailable for the supplementary render check. Live AI account login, a deployed mobile service, and physical-phone push delivery are outside these fixtures.
+
+Original source archive handoff verification - 2026-11-16
+
+Desktop Debug / review manifest: build succeeded, 0 warnings/errors.
+Standalone updater Release: build succeeded, 0 warnings/errors.
+Desktop fixture tests: parse36/mobile72/health36/stage-B10 passed.
+Phone Claude details fixture: 9 checks passed (320/390/430 widths).
+Local PHP notification API: 34 checks passed, including account isolation.
+PHP Claude contract: 14 checks passed.
+All original bitmap files replaced by neutral generated placeholders; dimensions preserved.
+One application icon regenerated from the neutral PNG; final resource build passed.
+Known owner endpoint/host/account/path/private-key/JWT patterns: 0 matched files.
+Forbidden credentials/config/history/build/Git artifacts: 0 entries.
+Fresh source tree only; original Git history not provided or rewritten.
+
+SHA256SUMS.txt enumerates every file in the current draft except itself. Verify against it after transfer.
+The original source archive has its own separately supplied hash.
+
+Limits: pattern scans are not proof of absence of every possible secret or vulnerability.
+No live owner login, desktop interaction, cloud deployment, production push or signing performed.
+The original handoff preceded the author's public distribution license decision.
+The GitHub draft records the approved license in LICENSE and NOTICE.
+Original production installation and service remain unchanged.

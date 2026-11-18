@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="zh-Hant"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#151719"><meta name="referrer" content="no-referrer">
+<meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="UsageTools">
+<link rel="manifest" href="manifest.php?v=2026.11.18.2"><link rel="apple-touch-icon" sizes="180x180" href="pulse-icon-180-v1.png?v=2026.11.18.2">
+<link rel="stylesheet" href="style.css?v=2026.11.18.3"><link rel="stylesheet" href="notifications.css?v=2026.11.4.1"><link rel="stylesheet" href="reset-news.css?v=2026.11.4.1"><title>UsageTools 個人用量</title></head><body>
+<header class="app-header"><div class="app-title"><img src="pulse-icon-192-v1.png?v=2026.11.18.2" alt="" width="32" height="32"><h1>UsageTools</h1></div><button id="refresh" class="icon" title="重新整理" aria-label="重新整理"><svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"/><path d="M21 3v5h-5"/><path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"/><path d="M8 16H3v5"/></svg></button></header>
+<main><div class="connection" role="status"><strong id="connection">連線中</strong><span id="updated">尚未同步</span></div>
+<div id="pairing" hidden><label for="key">個人配對碼</label><input id="key" type="password" autocomplete="off" maxlength="129"><button id="pair">配對</button></div>
+<section id="usageView" class="view"><p id="themeStatus" class="theme-status"></p><section id="providers" aria-label="AI 用量"></section><p id="empty" hidden>尚未開啟 AI 資料來源</p><section class="history"><h2>最近動態</h2><ol id="recent"></ol></section></section>
+<section id="notificationsView" class="view" hidden><div class="section-heading"><h2>通知中心</h2><span id="historyCount"></span></div><div id="creditSummary" class="credit-summary" hidden></div><ol id="history"></ol><p class="retention">最近 7 天 · 最多 100 筆</p></section>
+<section id="settingsView" class="view" hidden>
+<section class="preferences"><h2>資料來源</h2>
+<label>Codex <input id="codex" type="checkbox" role="switch" aria-label="Codex 顯示與通知"></label><p id="codexStatus" class="hint"></p>
+<label>Claude Code <input id="claude" type="checkbox" role="switch" aria-label="Claude Code 顯示與通知"></label><p id="claudeStatus" class="hint"></p></section>
+<section class="preferences"><h2>外觀</h2><label>跟隨電腦主題 <input id="followTheme" type="checkbox" role="switch" checked></label><label for="theme">手機主題</label><select id="theme"></select></section>
+<section class="preferences"><h2>通知</h2>
+<label>低額度提醒 <input id="low" type="checkbox" role="switch" checked></label><p class="hint">剩餘 20% · 15% · 10% · 5%</p>
+<label>額度重置與贈券 <input id="reset" type="checkbox" role="switch" checked></label>
+<label>每使用 5% 提醒 <input id="milestones" type="checkbox" role="switch"></label>
+<label>血條圖片 <input id="images" type="checkbox" role="switch" checked></label>
+<label>頁面提示音 <input id="sound" type="checkbox" role="switch"></label>
+<div class="actions sound-actions"><select id="soundKind" aria-label="試聽事件"><option value="LowRemaining">低額度</option><option value="UsageReset">額度重置</option><option value="ResetCreditsAdded">新增重置券</option></select><button id="soundTest">試聽</button></div><p id="soundStatus" class="hint" role="status"></p>
+<div class="actions"><button id="notify">開啟手機通知</button><button id="test">測試通知</button></div><p id="notificationStatus" role="status"></p></section>
+<footer><span>2026.11.11.2</span><button id="unpair">解除本機配對</button></footer>
+</section>
+<section id="newsView" class="view" hidden>
+<header class="news-intro"><span class="news-kind">CODEX / X</span><h2>Tibo 重置消息</h2><p>@thsottiaux · 原文消息不代表你的帳戶已完成重置或收到券。</p><label>Tibo 新消息推播 <input id="resetNews" type="checkbox" role="switch"></label><p id="newsPreferenceStatus" role="status"></p></header>
+<p id="newsState" class="news-state" role="status">尚未載入</p><div id="newsLatest" class="news-latest" hidden></div><div class="news-list-heading"><h3>最近消息</h3><span>最近 7 天</span></div><ol id="newsList" class="news-list"></ol>
+<p class="news-source">來源：<a href="https://codex-resets.com/zh-TW" target="_blank" rel="noopener noreferrer">Codex Resets</a> · 第三方自動整理，非 OpenAI 官方服務。最近 7 天，最多 30 則。</p>
+</section></main>
+<dialog id="eventDialog" class="event-dialog" aria-labelledby="eventDialogTitle"><header class="event-dialog-header"><h2 id="eventDialogTitle">通知詳情</h2><button id="eventDialogClose" class="icon" type="button" title="關閉訊息" aria-label="關閉訊息"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="m18 6-12 12M6 6l12 12"/></svg></button></header><div id="eventDialogContent" class="event-dialog-content"></div></dialog>
+<!-- Lucide navigation icons; see LUCIDE_LICENSE.txt. -->
+<nav class="bottom-nav" aria-label="主要頁面"><button data-view="usage" aria-current="page"><svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 21v-6"/><path d="M12 21V3"/><path d="M19 21V9"/></svg>用量</button><button data-view="notifications"><svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.268 21a2 2 0 0 0 3.464 0"/><path d="M3.262 15.326A1 1 0 0 0 4 17h16a1 1 0 0 0 .74-1.673C19.41 13.956 18 12.499 18 8A6 6 0 0 0 6 8c0 4.499-1.411 5.956-2.738 7.326"/></svg>通知</button><button data-view="settings"><svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 17H5"/><path d="M19 7h-9"/><circle cx="17" cy="17" r="3"/><circle cx="7" cy="7" r="3"/></svg>設定</button></nav>
+<script src="notifications.js?v=2026.11.18.1"></script><script src="claude-details.js?v=2026.11.11.2"></script><script src="reset-news.js?v=2026.11.4.1"></script><script src="app.js?v=2026.11.18.2"></script></body></html>

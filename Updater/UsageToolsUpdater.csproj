@@ -1,0 +1,22 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net10.0-windows</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <AssemblyName>UsageToolsUpdater</AssemblyName>
+    <RootNamespace>UsageToolsUpdater</RootNamespace>
+    <Version>2026.7.14</Version>
+    <AssemblyVersion>2026.7.14.0</AssemblyVersion>
+    <FileVersion>2026.7.14.0</FileVersion>
+    <RuntimeIdentifier>win-x64</RuntimeIdentifier>
+    <PublishTrimmed>true</PublishTrimmed>
+    <TrimMode>full</TrimMode>
+    <EnableCompressionInSingleFile>true</EnableCompressionInSingleFile>
+    <InvariantGlobalization>true</InvariantGlobalization>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)' == 'Release'">
+    <WarningsAsErrors>$(WarningsAsErrors);IL2026;IL2027;IL3050</WarningsAsErrors>
+  </PropertyGroup>
+</Project>

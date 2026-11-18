@@ -1,0 +1,647 @@
+﻿<Window x:Class="UsageTools2026.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="UsageTools2026.Public"
+        Width="360"
+        SizeToContent="Height"
+        MinWidth="360"
+        MaxWidth="360"
+        ResizeMode="NoResize"
+        WindowStyle="None"
+        AllowsTransparency="True"
+        Background="Transparent"
+        ShowInTaskbar="False"
+        Topmost="True">
+    <Window.Resources>
+        <Style x:Key="BarStyle" TargetType="ProgressBar">
+            <Setter Property="Height" Value="6" />
+            <Setter Property="Minimum" Value="0" />
+            <Setter Property="Maximum" Value="100" />
+            <Setter Property="Background" Value="{DynamicResource TrackBrush}" />
+            <Setter Property="BorderThickness" Value="0" />
+        </Style>
+        <Style x:Key="SmallButtonStyle" TargetType="Button">
+            <Setter Property="Height" Value="25" />
+            <Setter Property="Padding" Value="8,0" />
+            <Setter Property="Foreground" Value="{DynamicResource TextBrush}" />
+            <Setter Property="Background" Value="{DynamicResource ButtonBrush}" />
+            <Setter Property="BorderBrush" Value="{DynamicResource BorderBrush}" />
+            <Setter Property="FontSize" Value="11" />
+            <Setter Property="FontWeight" Value="SemiBold" />
+        </Style>
+        <Style x:Key="CardBorderStyle" TargetType="Border">
+            <Setter Property="CornerRadius" Value="8" />
+            <Setter Property="Padding" Value="10" />
+            <Setter Property="Background" Value="{DynamicResource CardBrush}" />
+            <Setter Property="BorderBrush" Value="{DynamicResource BorderBrush}" />
+            <Setter Property="BorderThickness" Value="1" />
+        </Style>
+        <Style x:Key="UpdateIconButtonStyle" TargetType="Button">
+            <Setter Property="Width" Value="22" />
+            <Setter Property="Height" Value="22" />
+            <Setter Property="Padding" Value="0" />
+            <Setter Property="Cursor" Value="Hand" />
+            <Setter Property="Background" Value="#2F7CF6" />
+            <Setter Property="BorderBrush" Value="#74AEFF" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="UpdateCircle"
+                                CornerRadius="11"
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="UpdateCircle" Property="Background" Value="#4A91FF" />
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="UpdateCircle" Property="Background" Value="#1F63CF" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style x:Key="DataSwitchStyle" TargetType="ToggleButton">
+            <Setter Property="Width" Value="42" />
+            <Setter Property="Height" Value="22" />
+            <Setter Property="Cursor" Value="Hand" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ToggleButton">
+                        <Border x:Name="SwitchTrack"
+                                CornerRadius="11"
+                                Background="{DynamicResource TrackBrush}"
+                                BorderBrush="{DynamicResource BorderBrush}"
+                                BorderThickness="1">
+                            <Ellipse x:Name="SwitchThumb"
+                                     Width="16"
+                                     Height="16"
+                                     Margin="2,0,0,0"
+                                     HorizontalAlignment="Left"
+                                     VerticalAlignment="Center"
+                                     Fill="{DynamicResource MutedBrush}" />
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsChecked" Value="True">
+                                <Setter TargetName="SwitchTrack" Property="Background" Value="{DynamicResource SuccessBrush}" />
+                                <Setter TargetName="SwitchTrack" Property="BorderBrush" Value="{DynamicResource SuccessBrush}" />
+                                <Setter TargetName="SwitchThumb" Property="HorizontalAlignment" Value="Right" />
+                                <Setter TargetName="SwitchThumb" Property="Margin" Value="0,0,2,0" />
+                                <Setter TargetName="SwitchThumb" Property="Fill" Value="White" />
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter TargetName="SwitchTrack" Property="Opacity" Value="0.55" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
+
+    <Border x:Name="OuterShell" CornerRadius="13" Padding="8" Background="{DynamicResource ShellBrush}" BorderBrush="{DynamicResource OuterBorderBrush}" BorderThickness="1" PreviewMouseLeftButtonDown="WindowDrag_PreviewMouseLeftButtonDown">
+        <Border.ContextMenu>
+            <ContextMenu>
+                <MenuItem Header="簡易模式" Click="Hide_Click" />
+            </ContextMenu>
+        </Border.ContextMenu>
+        <Border x:Name="PanelFrame" CornerRadius="10" Background="{DynamicResource PanelBrush}" BorderBrush="{DynamicResource BorderBrush}" BorderThickness="1">
+            <ScrollViewer x:Name="MainScrollViewer" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" CanContentScroll="False" PanningMode="VerticalOnly">
+            <Grid Margin="10">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+
+                <DockPanel x:Name="HeaderPanel" Grid.Row="0" Margin="0,0,0,8" MouseLeftButtonDown="HeaderPanel_MouseLeftButtonDown">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="24" />
+                        </Grid.RowDefinitions>
+                        <Grid Grid.Row="0" Margin="0,0,0,5">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="24" />
+                            </Grid.ColumnDefinitions>
+                            <TextBlock x:Name="AppTitleText" Text="UsageTools2026.Public" FontSize="16" FontWeight="Bold" Foreground="{DynamicResource TextBrush}" VerticalAlignment="Center" />
+                            <Button x:Name="HeaderHideButton" Grid.Column="1" Width="24" Height="24" Padding="2,0" Style="{StaticResource SmallButtonStyle}" Click="Hide_Click" Content="X" ToolTip="切換簡易模式" VerticalAlignment="Top" />
+                        </Grid>
+                    <StackPanel Grid.Row="1" Orientation="Horizontal">
+                        <Button x:Name="LanguageButton" Width="32" Margin="0,0,4,0" Padding="2,0" Style="{StaticResource SmallButtonStyle}" Click="Language_Click" />
+                        <Button x:Name="ThemeButton" Width="44" Margin="0,0,4,0" Padding="2,0" Style="{StaticResource SmallButtonStyle}" Click="Theme_Click" />
+                        <Button x:Name="OpacityButton" Width="36" Margin="0,0,4,0" Padding="2,0" Style="{StaticResource SmallButtonStyle}" Click="BackgroundOpacity_Click" />
+                        <Popup x:Name="ThemePopup" PlacementTarget="{Binding ElementName=ThemeButton}" Placement="Bottom" StaysOpen="False" AllowsTransparency="True">
+                            <Border Background="{DynamicResource CardBrush}" BorderBrush="{DynamicResource OuterBorderBrush}" BorderThickness="1" CornerRadius="8" Padding="6" Margin="0,4,0,0">
+                                <StackPanel x:Name="ThemeMenuList" MinWidth="130" />
+                            </Border>
+                        </Popup>
+                    </StackPanel>
+                    </Grid>
+                </DockPanel>
+
+                <Border x:Name="CodexCard" Grid.Row="1" Style="{StaticResource CardBorderStyle}" Margin="0,0,0,8">
+                    <StackPanel>
+                        <DockPanel>
+                            <Button x:Name="CodexPlanButton" Width="24" Height="24" Padding="0" Margin="0,0,8,0"
+                                    Background="Transparent" BorderThickness="0" Cursor="Hand" ToolTip="Codex 訂閱方案" Click="CodexPlan_Click">
+                                <Border x:Name="CodexBadge" Width="24" Height="24" CornerRadius="5" Background="#202D5E" BorderBrush="#8091FF" BorderThickness="1">
+                                    <TextBlock Text="CX" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="12" FontWeight="Bold"
+                                               Foreground="{Binding BorderBrush, ElementName=CodexBadge}" />
+                                </Border>
+                            </Button>
+                            <TextBlock x:Name="CodexTitleText" Text="Codex" FontSize="18" FontWeight="Bold" Foreground="#4F9DF7" VerticalAlignment="Center" />
+                            <StackPanel DockPanel.Dock="Right" Orientation="Horizontal" VerticalAlignment="Center" Margin="8,0,2,0">
+                                <Button x:Name="CodexNewsButton"
+                                        Width="24"
+                                        Height="24"
+                                        Padding="0"
+                                        Margin="0,0,4,0"
+                                        Content="i"
+                                        FontSize="9"
+                                        FontWeight="Bold"
+                                        Style="{StaticResource SmallButtonStyle}"
+                                        Click="CodexNews_Click"
+                                        ToolTip="Codex 更新資訊" />
+                                <ToggleButton x:Name="CodexWorkButton" Visibility="Collapsed" Cursor="Hand"
+                                              Padding="8,2" FontSize="11" FontWeight="Bold" Foreground="#4F9DF7"
+                                              Background="{DynamicResource ButtonBrush}" BorderBrush="{DynamicResource BorderBrush}"
+                                              VerticalAlignment="Center" />
+                                <Ellipse x:Name="CodexStatusLight" Width="10" Height="10" Margin="8,0,0,0" />
+                                <TextBlock x:Name="CodexStatusText" Visibility="Collapsed" Width="0" />
+                                <ToggleButton x:Name="CodexResetCreditButton"
+                                              Width="54"
+                                              Height="24"
+                                              Margin="8,0,0,0"
+                                              Padding="4,0"
+                                              Content="↻ 0"
+                                              FontSize="11"
+                                              FontWeight="Bold"
+                                              Cursor="Hand"
+                                              Visibility="Collapsed"
+                                              ToolTip="Codex 重置額度" />
+                            </StackPanel>
+                        </DockPanel>
+
+                        <Popup x:Name="CodexPlanPopup" PlacementTarget="{Binding ElementName=CodexPlanButton}"
+                               Placement="Bottom" StaysOpen="False" AllowsTransparency="True">
+                            <Border x:Name="CodexPlanPopupBorder" Width="205" Padding="10" Margin="0,4,0,0"
+                                    CornerRadius="8" Background="{DynamicResource CardBrush}"
+                                    BorderBrush="{DynamicResource OuterBorderBrush}" BorderThickness="1">
+                                <StackPanel>
+                                    <TextBlock x:Name="CodexPlanPopupTitle" FontSize="11" FontWeight="Bold" />
+                                    <StackPanel x:Name="CodexPlanList" Margin="0,7,0,0" />
+                                </StackPanel>
+                            </Border>
+                        </Popup>
+
+                        <Popup x:Name="CodexWorkPopup" PlacementTarget="{Binding ElementName=CodexWorkButton}"
+                               Placement="Bottom" StaysOpen="False" AllowsTransparency="True"
+                               IsOpen="{Binding IsChecked, ElementName=CodexWorkButton}">
+                            <Border Background="{DynamicResource CardBrush}" BorderBrush="{DynamicResource OuterBorderBrush}"
+                                    BorderThickness="1" CornerRadius="10" Padding="12" Margin="0,4,0,0" MaxWidth="330">
+                                <StackPanel>
+                                    <TextBlock x:Name="CodexWorkTitle" FontSize="12" FontWeight="Bold" Foreground="{DynamicResource MutedBrush}" />
+                                    <ScrollViewer MaxHeight="260"
+                                                  Margin="0,8,0,0"
+                                                  VerticalScrollBarVisibility="Auto"
+                                                  HorizontalScrollBarVisibility="Disabled"
+                                                  CanContentScroll="True">
+                                        <StackPanel x:Name="CodexWorkList" />
+                                    </ScrollViewer>
+                                </StackPanel>
+                            </Border>
+                        </Popup>
+
+                        <Popup x:Name="CodexResetCreditPopup"
+                               PlacementTarget="{Binding ElementName=CodexResetCreditButton}"
+                               Placement="Bottom"
+                               StaysOpen="False"
+                               AllowsTransparency="True"
+                               IsOpen="{Binding IsChecked, ElementName=CodexResetCreditButton}">
+                            <Border x:Name="CodexResetCreditPopupBorder"
+                                    Width="286"
+                                    Padding="11"
+                                    Margin="0,4,0,0"
+                                    CornerRadius="8"
+                                    Background="{DynamicResource CardBrush}"
+                                    BorderBrush="{DynamicResource OuterBorderBrush}"
+                                    BorderThickness="1">
+                                <StackPanel>
+                                    <DockPanel>
+                                        <TextBlock x:Name="CodexResetCreditHeader"
+                                                   FontSize="12"
+                                                   FontWeight="Bold"
+                                                   Foreground="{DynamicResource TextBrush}" />
+                                        <TextBlock x:Name="CodexResetCreditSyncText"
+                                                   DockPanel.Dock="Right"
+                                                   FontSize="9"
+                                                   Foreground="{DynamicResource MutedBrush}" />
+                                    </DockPanel>
+                                    <ScrollViewer MaxHeight="220"
+                                                  Margin="0,8,0,0"
+                                                  VerticalScrollBarVisibility="Auto"
+                                                  HorizontalScrollBarVisibility="Disabled">
+                                        <StackPanel x:Name="CodexResetCreditList" />
+                                    </ScrollViewer>
+                                </StackPanel>
+                            </Border>
+                        </Popup>
+
+                        <Grid x:Name="CodexPrimaryRow" Margin="0,12,0,0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <TextBlock x:Name="CodexSessionLabel" Text="Session" FontSize="13" FontWeight="SemiBold" Foreground="{DynamicResource TextBrush}" />
+                            <TextBlock x:Name="CodexSessionValue" Grid.Column="1" FontSize="12" FontWeight="Bold" />
+                        </Grid>
+                        <ProgressBar x:Name="CodexSessionBar" Margin="0,4,0,0" Style="{StaticResource BarStyle}" />
+                        <TextBlock x:Name="CodexSessionReset" Margin="0,4,0,0" FontSize="10" FontWeight="SemiBold" HorizontalAlignment="Right" Foreground="{DynamicResource MutedBrush}" />
+
+                        <Grid x:Name="CodexSecondaryRow" Margin="0,10,0,0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <TextBlock x:Name="CodexWeekLabel" FontSize="13" FontWeight="SemiBold" Foreground="{DynamicResource TextBrush}" />
+                            <TextBlock x:Name="CodexWeekValue" Grid.Column="1" FontSize="12" FontWeight="Bold" />
+                        </Grid>
+                        <ProgressBar x:Name="CodexWeekBar" Margin="0,4,0,0" Style="{StaticResource BarStyle}" />
+                        <TextBlock x:Name="CodexWeekReset" Margin="0,4,0,0" FontSize="10" FontWeight="SemiBold" HorizontalAlignment="Right" Foreground="{DynamicResource MutedBrush}" />
+                    </StackPanel>
+                </Border>
+
+                <Border x:Name="ClaudeCard" Grid.Row="2" Style="{StaticResource CardBorderStyle}" Margin="0,0,0,8">
+                    <StackPanel>
+                        <DockPanel>
+                            <Button x:Name="ClaudePlanButton" Width="24" Height="24" Padding="0" Margin="0,0,8,0"
+                                    Background="Transparent" BorderThickness="0" Cursor="Hand" ToolTip="Claude Code 訂閱方案" Click="ClaudePlan_Click">
+                                <Border x:Name="ClaudeBadge" Width="24" Height="24" CornerRadius="5" Background="#2B1D18" BorderBrush="#B65F42" BorderThickness="1">
+                                    <TextBlock Text="CC" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="12" FontWeight="Bold"
+                                               Foreground="{Binding BorderBrush, ElementName=ClaudeBadge}" />
+                                </Border>
+                            </Button>
+                            <TextBlock x:Name="ClaudeTitleText" Text="Claude Code" FontSize="18" FontWeight="Bold" Foreground="#E8843D" VerticalAlignment="Center" />
+                            <StackPanel DockPanel.Dock="Right" Orientation="Horizontal" VerticalAlignment="Center" Margin="4,0,0,0">
+                                <Button x:Name="ClaudeNewsButton"
+                                        Width="24"
+                                        Height="24"
+                                        Padding="0"
+                                        Margin="0,0,2,0"
+                                        Content="i"
+                                        FontSize="9"
+                                        FontWeight="Bold"
+                                        Style="{StaticResource SmallButtonStyle}"
+                                        Click="ClaudeNews_Click"
+                                        ToolTip="Claude Code 更新資訊" />
+                                <ToggleButton x:Name="ClaudeWorkButton" Visibility="Collapsed" Cursor="Hand"
+                                              Padding="8,2" FontSize="11" FontWeight="Bold" Foreground="#E8843D"
+                                              Background="{DynamicResource ButtonBrush}" BorderBrush="{DynamicResource BorderBrush}"
+                                              VerticalAlignment="Center" />
+                                <Border x:Name="ClaudeFableBadge" Width="60" Height="24" Margin="4,0,0,0"
+                                        Visibility="Collapsed" CornerRadius="4" Cursor="Hand" MouseLeftButtonUp="ClaudeFableBadge_Click"
+                                        Background="{DynamicResource ButtonBrush}" BorderBrush="{DynamicResource BorderBrush}" BorderThickness="1">
+                                    <Grid ClipToBounds="True">
+                                        <Border x:Name="ClaudeFableFill" Height="3" HorizontalAlignment="Left" VerticalAlignment="Bottom"
+                                                Background="{DynamicResource WarningBrush}" />
+                                        <TextBlock x:Name="ClaudeFableText" HorizontalAlignment="Center" VerticalAlignment="Center"
+                                                   FontSize="9.5" FontWeight="Bold" Text="Fable 5" />
+                                    </Grid>
+                                </Border>
+                                <Ellipse x:Name="ClaudeStatusLight" Width="10" Height="10" Margin="4,0,0,0" />
+                                <TextBlock x:Name="ClaudeStatusText" Visibility="Collapsed" Width="0" />
+                            </StackPanel>
+                        </DockPanel>
+
+                        <Popup x:Name="ClaudePlanPopup" PlacementTarget="{Binding ElementName=ClaudePlanButton}"
+                               Placement="Bottom" StaysOpen="False" AllowsTransparency="True">
+                            <Border x:Name="ClaudePlanPopupBorder" Width="205" Padding="10" Margin="0,4,0,0"
+                                    CornerRadius="8" Background="{DynamicResource CardBrush}"
+                                    BorderBrush="{DynamicResource OuterBorderBrush}" BorderThickness="1">
+                                <StackPanel>
+                                    <TextBlock x:Name="ClaudePlanPopupTitle" FontSize="11" FontWeight="Bold" />
+                                    <StackPanel x:Name="ClaudePlanList" Margin="0,7,0,0" />
+                                </StackPanel>
+                            </Border>
+                        </Popup>
+
+                        <Popup x:Name="ClaudeDetailsPopup" PlacementTarget="{Binding ElementName=ClaudeDetailsButton}"
+                               Placement="Bottom" StaysOpen="False" AllowsTransparency="True"
+                               IsOpen="{Binding IsChecked, ElementName=ClaudeDetailsButton}">
+                            <Border x:Name="ClaudeDetailsPopupBorder" Background="{DynamicResource CardBrush}" BorderBrush="{DynamicResource OuterBorderBrush}"
+                                    BorderThickness="1" CornerRadius="10" Padding="12" Margin="0,4,0,0" Width="300">
+                                <ScrollViewer MaxHeight="420" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+                                    <StackPanel x:Name="ClaudeDetailsList" />
+                                </ScrollViewer>
+                            </Border>
+                        </Popup>
+
+                        <Popup x:Name="ClaudeWorkPopup" PlacementTarget="{Binding ElementName=ClaudeWorkButton}"
+                               Placement="Bottom" StaysOpen="False" AllowsTransparency="True"
+                               IsOpen="{Binding IsChecked, ElementName=ClaudeWorkButton}">
+                            <Border Background="{DynamicResource CardBrush}" BorderBrush="{DynamicResource OuterBorderBrush}"
+                                    BorderThickness="1" CornerRadius="10" Padding="12" Margin="0,4,0,0" MaxWidth="330">
+                                <StackPanel>
+                                    <TextBlock x:Name="ClaudeWorkTitle" FontSize="12" FontWeight="Bold" Foreground="{DynamicResource MutedBrush}" />
+                                    <ScrollViewer MaxHeight="260"
+                                                  Margin="0,8,0,0"
+                                                  VerticalScrollBarVisibility="Auto"
+                                                  HorizontalScrollBarVisibility="Disabled"
+                                                  CanContentScroll="True">
+                                        <StackPanel x:Name="ClaudeWorkList" />
+                                    </ScrollViewer>
+                                </StackPanel>
+                            </Border>
+                        </Popup>
+
+                        <Grid Margin="0,12,0,0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Text="5h" FontSize="13" FontWeight="SemiBold" Foreground="{DynamicResource TextBrush}" />
+                            <TextBlock x:Name="ClaudeSessionValue" Grid.Column="1" FontSize="12" FontWeight="Bold" Foreground="{DynamicResource WarningBrush}" />
+                        </Grid>
+                        <ProgressBar x:Name="ClaudeSessionBar" Margin="0,4,0,0" Style="{StaticResource BarStyle}" Foreground="{DynamicResource WarningBrush}" />
+                        <TextBlock x:Name="ClaudeSessionReset" Margin="0,4,0,0" FontSize="10" FontWeight="SemiBold" HorizontalAlignment="Right" Foreground="{DynamicResource MutedBrush}" />
+
+                        <Grid Margin="0,10,0,0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock x:Name="ClaudeWeekLabel" FontSize="13" FontWeight="SemiBold" Foreground="{DynamicResource TextBrush}" VerticalAlignment="Center" />
+                                <ToggleButton x:Name="ClaudeDetailsButton" Visibility="Collapsed" Cursor="Hand" Margin="8,0,0,0"
+                                              Padding="0" MinHeight="0" FontSize="11" FontWeight="SemiBold" Foreground="#E8843D"
+                                              Background="Transparent" BorderThickness="0" VerticalAlignment="Center"
+                                              ToolTip="Claude Code 額度池、重置券與可用模型"
+                                              Checked="ClaudeDetails_Checked" Unchecked="ClaudeDetails_Unchecked">
+                                    <ToggleButton.Template>
+                                        <ControlTemplate TargetType="ToggleButton">
+                                            <TextBlock Text="{TemplateBinding Content}" Foreground="{TemplateBinding Foreground}" TextDecorations="Underline" />
+                                        </ControlTemplate>
+                                    </ToggleButton.Template>
+                                </ToggleButton>
+                            </StackPanel>
+                            <TextBlock x:Name="ClaudeWeekValue" Grid.Column="1" FontSize="12" FontWeight="Bold" Foreground="{DynamicResource DangerBrush}" />
+                        </Grid>
+                        <ProgressBar x:Name="ClaudeWeekBar" Margin="0,4,0,0" Style="{StaticResource BarStyle}" Foreground="{DynamicResource DangerBrush}" />
+                        <TextBlock x:Name="ClaudeWeekReset" Margin="0,4,0,0" FontSize="10" FontWeight="SemiBold" HorizontalAlignment="Right" Foreground="{DynamicResource MutedBrush}" />
+                    </StackPanel>
+                </Border>
+
+                <Border x:Name="ProjectsCard" Grid.Row="3" Style="{StaticResource CardBorderStyle}" Margin="0,0,0,8">
+                    <StackPanel>
+                        <DockPanel>
+                            <Border x:Name="ProjectBadge" Width="24" Height="24" CornerRadius="5" Background="#123B25" BorderBrush="#2D9B54" BorderThickness="1" Margin="0,0,8,0">
+                                <TextBlock Text="P" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="12" FontWeight="Bold" Foreground="#56DB7A" />
+                            </Border>
+                            <TextBlock x:Name="ProjectsTitle" FontSize="17" FontWeight="Bold" Foreground="{DynamicResource TextBrush}" VerticalAlignment="Center" />
+                        </DockPanel>
+                        <Grid Margin="0,10,0,8">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="8" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="8" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <Button x:Name="TodayTabButton" Grid.Column="0" Style="{StaticResource SmallButtonStyle}" />
+                            <Button x:Name="ReportTabButton" Grid.Column="2" Style="{StaticResource SmallButtonStyle}" Click="Report_Click" />
+                            <Button x:Name="ContinueTabButton" Grid.Column="4" Style="{StaticResource SmallButtonStyle}" Click="Startup_Click" />
+                        </Grid>
+                        <ListBox x:Name="ProjectsList" Height="72" Padding="4,2" Background="Transparent" BorderBrush="{DynamicResource BorderBrush}" BorderThickness="1" Foreground="{DynamicResource TextBrush}" ScrollViewer.VerticalScrollBarVisibility="Auto">
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <Grid Margin="0,4">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="Auto" />
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock Text="{Binding Name}" FontSize="12" FontWeight="SemiBold" Foreground="{DynamicResource TextBrush}" TextTrimming="CharacterEllipsis" />
+                                        <TextBlock Grid.Column="1" Text="{Binding TokensText}" FontSize="12" FontWeight="Bold" Foreground="{DynamicResource SuccessBrush}" Margin="8,0,0,0" />
+                                    </Grid>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
+                    </StackPanel>
+                </Border>
+
+                <Border x:Name="SystemCard" Grid.Row="4" Style="{StaticResource CardBorderStyle}" Margin="0,0,0,8">
+                    <StackPanel>
+                        <DockPanel>
+                            <Border x:Name="SystemBadge" Width="24" Height="24" CornerRadius="5" Background="#172B39" BorderBrush="#4EA4D8" BorderThickness="1" Margin="0,0,8,0">
+                                <TextBlock Text="S" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="12" FontWeight="Bold" Foreground="#86D7FF" />
+                            </Border>
+                            <TextBlock x:Name="SystemTitle" FontSize="17" FontWeight="Bold" Foreground="{DynamicResource TextBrush}" VerticalAlignment="Center" />
+                        </DockPanel>
+                        <Grid Margin="0,10,0,0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="42" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="92" />
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Text="CPU" FontSize="12" FontWeight="SemiBold" Foreground="{DynamicResource MutedBrush}" />
+                            <ProgressBar x:Name="CpuBar" Grid.Column="1" Style="{StaticResource BarStyle}" Foreground="{DynamicResource AccentBrush}" />
+                            <TextBlock x:Name="CpuValueText" Grid.Column="2" HorizontalAlignment="Right" FontSize="12" FontWeight="Bold" Foreground="{DynamicResource TextBrush}" />
+                        </Grid>
+                        <Grid Margin="0,7,0,0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="42" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="92" />
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Text="RAM" FontSize="12" FontWeight="SemiBold" Foreground="{DynamicResource MutedBrush}" />
+                            <ProgressBar x:Name="RamBar" Grid.Column="1" Style="{StaticResource BarStyle}" Foreground="{DynamicResource SuccessBrush}" />
+                            <TextBlock x:Name="RamValueText" Grid.Column="2" HorizontalAlignment="Right" FontSize="12" FontWeight="Bold" Foreground="{DynamicResource TextBrush}" />
+                        </Grid>
+                        <TextBlock x:Name="NetworkValueText" Margin="0,8,0,0" FontSize="12" FontWeight="SemiBold" Foreground="{DynamicResource MutedBrush}" TextTrimming="CharacterEllipsis" />
+                        <Border Height="1" Margin="0,9,0,8" Background="{DynamicResource BorderBrush}" Opacity="0.75" />
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <TextBlock x:Name="BottomTodayText" FontSize="13" FontWeight="Bold" Foreground="{DynamicResource TextBrush}" TextTrimming="CharacterEllipsis" VerticalAlignment="Center" />
+                            <Button x:Name="UpdateButton"
+                                    Grid.Column="1"
+                                    Margin="8,0,0,0"
+                                    Visibility="Collapsed"
+                                    Style="{StaticResource UpdateIconButtonStyle}"
+                                    ToolTip="有新版本可用"
+                                    AutomationProperties.Name="下載更新"
+                                    Click="Update_Click">
+                                <Path Width="12"
+                                      Height="12"
+                                      Stretch="Uniform"
+                                      Stroke="White"
+                                      StrokeThickness="1.8"
+                                      StrokeStartLineCap="Round"
+                                      StrokeEndLineCap="Round"
+                                      Data="M 8,2 L 8,9 M 5,6 L 8,9 L 11,6 M 3,12 L 13,12" />
+                            </Button>
+                            <Button x:Name="ToolsButton"
+                                    Grid.Column="2"
+                                    Width="24"
+                                    Height="22"
+                                    Margin="6,0,0,0"
+                                    Padding="0"
+                                    Content="&#x2699;"
+                                    FontSize="13"
+                                    Style="{StaticResource SmallButtonStyle}"
+                                    Click="Tools_Click"
+                                    AutomationProperties.Name="資料與重新啟動設定" />
+                            <Button x:Name="AboutButton" Grid.Column="3" Width="52" Height="20" Margin="5,0,0,0" Padding="3,0" FontSize="10" Style="{StaticResource SmallButtonStyle}" Click="About_Click" />
+                        </Grid>
+                        <Popup x:Name="ToolsPopup"
+                               PlacementTarget="{Binding ElementName=ToolsButton}"
+                               Placement="Top"
+                               StaysOpen="False"
+                               AllowsTransparency="True">
+                            <Border Width="236"
+                                    Margin="0,0,0,5"
+                                    Padding="12"
+                                    CornerRadius="8"
+                                    Background="{DynamicResource CardBrush}"
+                                    BorderBrush="{DynamicResource OuterBorderBrush}"
+                                    BorderThickness="1">
+                                <StackPanel>
+                                    <TextBlock x:Name="ToolsPopupTitle"
+                                               FontSize="12"
+                                               FontWeight="Bold"
+                                               Foreground="{DynamicResource TextBrush}" />
+                                    <Grid Margin="0,10,0,0">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="Auto" />
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock x:Name="CodexDataLabel"
+                                                   VerticalAlignment="Center"
+                                                   FontSize="11"
+                                                   Foreground="{DynamicResource TextBrush}" />
+                                        <ToggleButton x:Name="CodexDataToggle"
+                                                      Grid.Column="1"
+                                                      Style="{StaticResource DataSwitchStyle}"
+                                                      Click="CodexDataToggle_Click" />
+                                    </Grid>
+                                    <Grid Margin="0,8,0,0">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="Auto" />
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock x:Name="ClaudeDataLabel"
+                                                   VerticalAlignment="Center"
+                                                   FontSize="11"
+                                                   Foreground="{DynamicResource TextBrush}" />
+                                        <ToggleButton x:Name="ClaudeDataToggle"
+                                                      Grid.Column="1"
+                                                      Style="{StaticResource DataSwitchStyle}"
+                                                      Click="ClaudeDataToggle_Click" />
+                                    </Grid>
+                                    <Grid Margin="0,8,0,0">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="Auto" />
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock x:Name="AlwaysOnTopLabel"
+                                                   VerticalAlignment="Center"
+                                                   FontSize="11"
+                                                   Foreground="{DynamicResource TextBrush}" />
+                                        <ToggleButton x:Name="AlwaysOnTopToggle"
+                                                      Grid.Column="1"
+                                                      Style="{StaticResource DataSwitchStyle}"
+                                                      Click="AlwaysOnTopToggle_Click" />
+                                    </Grid>
+                                    <Border Height="1" Margin="0,10,0,8" Background="{DynamicResource BorderBrush}" />
+                                    <Grid Margin="0,0,0,8">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="Auto" />
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock x:Name="PersonalMobileLabel" VerticalAlignment="Center" FontSize="11"
+                                                   Foreground="{DynamicResource TextBrush}" />
+                                        <ToggleButton x:Name="PersonalMobileToggle" Grid.Column="1"
+                                                      ToolTipService.ShowOnDisabled="True"
+                                                      Style="{StaticResource DataSwitchStyle}" Click="PersonalMobileToggle_Click" />
+                                    </Grid>
+                                    <Button x:Name="MobileButton" Height="30" Margin="0,0,0,8" Click="Mobile_Click"
+                                            Foreground="#4F9DF7" Background="{DynamicResource ButtonBrush}"
+                                            BorderBrush="{DynamicResource BorderBrush}" />
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="Auto" />
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock x:Name="RestartToolsLabel"
+                                                   VerticalAlignment="Center"
+                                                   FontSize="11"
+                                                   FontWeight="SemiBold"
+                                                   Foreground="{DynamicResource WarningBrush}" />
+                                        <ToggleButton x:Name="RestartToolsToggle"
+                                                      Grid.Column="1"
+                                                      Style="{StaticResource DataSwitchStyle}"
+                                                      Click="RestartToolsToggle_Click" />
+                                    </Grid>
+                                </StackPanel>
+                            </Border>
+                        </Popup>
+                    </StackPanel>
+                </Border>
+
+                <Border x:Name="FooterCard" Grid.Row="5" Visibility="Collapsed" Style="{StaticResource CardBorderStyle}">
+                    <StackPanel>
+                        <TextBlock x:Name="RateLabelText" Visibility="Collapsed" FontSize="10" FontWeight="SemiBold" Foreground="{DynamicResource MutedBrush}" />
+                        <TextBlock x:Name="SyncLabelText" Visibility="Collapsed" Margin="0,3,0,0" FontSize="10" FontWeight="SemiBold" Foreground="{DynamicResource MutedBrush}" />
+                        <Border x:Name="FooterDivider" Visibility="Collapsed" Height="1" Margin="0,10,0,10" Background="{DynamicResource BorderBrush}" />
+                        <Grid x:Name="FooterActionGrid" Visibility="Collapsed" Margin="0,12,0,0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="8" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <Button x:Name="RefreshButton" Grid.Column="0" Height="34" Click="Refresh_Click" Foreground="{DynamicResource TextBrush}" Background="{DynamicResource PrimaryButtonBrush}" BorderBrush="{DynamicResource AccentBrush}" />
+                            <Button x:Name="QuitButton" Grid.Column="2" Height="34" Click="Quit_Click" Foreground="{DynamicResource TextBrush}" Background="{DynamicResource ButtonBrush}" BorderBrush="{DynamicResource BorderBrush}" />
+                        </Grid>
+                    </StackPanel>
+                </Border>
+
+                <Grid Grid.Row="6" Margin="0,8,2,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock x:Name="LastUpdatedText"
+                               Margin="0,0,8,0"
+                               HorizontalAlignment="Left"
+                               VerticalAlignment="Center"
+                               FontSize="10"
+                               TextTrimming="CharacterEllipsis"
+                               Foreground="{DynamicResource MutedBrush}" />
+                    <TextBlock x:Name="VersionText"
+                               Grid.Column="1"
+                               HorizontalAlignment="Right"
+                               VerticalAlignment="Center"
+                               FontSize="10"
+                               FontWeight="SemiBold"
+                               Foreground="{DynamicResource MutedBrush}"
+                               Opacity="0.9" />
+                </Grid>
+            </Grid>
+            </ScrollViewer>
+        </Border>
+    </Border>
+</Window>

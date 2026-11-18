@@ -1,0 +1,57 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net10.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UseWPF>true</UseWPF>
+    <UseWindowsForms>true</UseWindowsForms>
+    <ApplicationIcon>Assets\UsageTools.ico</ApplicationIcon>
+    <AssemblyName>UsageTools2026</AssemblyName>
+    <RootNamespace>UsageTools2026</RootNamespace>
+    <Version>2026.11.18.1</Version>
+    <AssemblyVersion>2026.11.18.1</AssemblyVersion>
+    <FileVersion>2026.11.18.1</FileVersion>
+    <InformationalVersion>2026.11.18.1</InformationalVersion>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+    <RuntimeIdentifiers>win-x64</RuntimeIdentifiers>
+    <RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
+    <NuGetAudit>true</NuGetAudit>
+    <NuGetAuditLevel>moderate</NuGetAuditLevel>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)' == 'Release'">
+    <WarningsAsErrors>$(WarningsAsErrors);NU1901;NU1902;NU1903;NU1904</WarningsAsErrors>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Data.Sqlite" Version="10.0.9" />
+    <PackageReference Include="Microsoft.Web.WebView2" Version="1.0.3351.48" />
+    <PackageReference Include="SQLitePCLRaw.bundle_e_sqlite3" Version="3.0.3" />
+    <PackageReference Include="System.Management" Version="10.0.0" />
+    <PackageReference Include="System.Net.Http.WinHttpHandler" Version="10.0.0" />
+    <PackageReference Include="ClosureOSS.WebPush" Version="2.5.6" />
+    <PackageReference Include="QRCoder" Version="1.8.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="Updater\**\*.cs" />
+    <Compile Remove="tools\update\ReleaseTool\**\*.cs" />
+    <Compile Remove="tools\update\IntegrationTestApp\**\*.cs" />
+    <None Remove="Updater\**\*" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Fixtures\ai-changelog-offline.json" />
+    <None Update="LICENSE;NOTICE" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
+    <None Update="THIRD_PARTY_MOBILE_NOTICES.txt" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
+    <None Update="QRCoder-LICENSE.txt" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Assets\UsageTools.ico" />
+    <Resource Include="Assets\UsageTools.png" />
+  </ItemGroup>
+
+</Project>

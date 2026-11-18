@@ -1,0 +1,15 @@
+Additional mobile feature dependencies
+
+ClosureOSS.WebPush 2.5.6
+License: Mozilla Public License 2.0 (MPL-2.0)
+Authors: Cory Thompson, Robert Bill
+Unmodified package source:
+https://github.com/closureOSS/webpush-csharp/tree/c1cb088c78f613e9db2cadb46619adbc0096ccea
+License text: https://www.mozilla.org/en-US/MPL/2.0/
+
+QRCoder 1.8.0
+License: MIT
+Source: https://github.com/Shane32/QRCoder/tree/443d5a1f76debf203b1e252efee6996a15d41f5c
+See the accompanying QRCoder license file for its copyright and license text.
+
+These dependencies do not grant access to a personal UsageTools dashboard.
